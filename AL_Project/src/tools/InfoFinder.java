@@ -31,7 +31,7 @@ public class InfoFinder {
 	 * @param c Class
 	 * @return HashMap with class informations
 	 */
-	public static HashMap<String, Object> info(Class c) {
+	public static HashMap<String, Object> info(Class<?> c) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		boolean isInterface = c.isInterface();
@@ -55,7 +55,7 @@ public class InfoFinder {
 	 * @return an ArrayList of Strings
 	 * 		   (each element is like "name_of_variable:type_of_variable")
 	 */
-	public static ArrayList<String> variables(Class c) {
+	public static ArrayList<String> variables(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>();
 		for (Field f : c.getDeclaredFields()) {
 			result.add(f.getName()+":"+f.getType().getSimpleName());
@@ -70,11 +70,11 @@ public class InfoFinder {
 	 * @return an ArrayList of Strings
 	 * 		   (each element is like "class_name(type1, type2, etc.)")
 	 */
-	public static ArrayList<String> constructors(Class c) {
+	public static ArrayList<String> constructors(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>(); 
-		for (Constructor constructor : c.getConstructors()) {
+		for (Constructor<?> constructor : c.getConstructors()) {
 			String s = constructor.getDeclaringClass().getSimpleName() + "(";
-			for (Class sc : constructor.getParameterTypes()) {
+			for (Class<?> sc : constructor.getParameterTypes()) {
 				s = s + sc.getSimpleName() + ",";
 			}
 			s = s.substring(0, s.length()-1) +  ")";
@@ -90,12 +90,12 @@ public class InfoFinder {
 	 * @return an ArrayList of Strings
 	 * 		   (each element is like "method_name(type1):returned_type")
 	 */
-	public static ArrayList<String> methods(Class c) {
+	public static ArrayList<String> methods(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>();
 
 		for (Method m : c.getDeclaredMethods()) {
 			String field = m.getName() + "(";
-			for (Class sc : m.getParameterTypes()) {
+			for (Class<?> sc : m.getParameterTypes()) {
 				field += sc.getSimpleName() + ",";
 			}
 			if (field.charAt(field.length() - 1) != '(') {
@@ -114,9 +114,9 @@ public class InfoFinder {
 	 * @param c Class
 	 * @return an ArrayList of Strings (name_of_interface)
 	 */
-	public static ArrayList<String> imp(Class c) {
+	public static ArrayList<String> imp(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>();
-		for (Class sc : c.getInterfaces()) {
+		for (Class<?> sc : c.getInterfaces()) {
 			result.add(sc.getSimpleName());
 		}
 		return result;
@@ -128,7 +128,7 @@ public class InfoFinder {
 	 * @param c Class
 	 * @return String with name of SuperClass
 	 */
-	public static ArrayList<String> ext(Class c) {
+	public static ArrayList<String> ext(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>();
 		if (c.getSuperclass().getSimpleName() == "Object") {
 			result.add(c.getSuperclass().getSimpleName());
