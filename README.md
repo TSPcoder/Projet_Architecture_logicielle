@@ -1,1 +1,1 @@
-# emn_architecture_logicielle
+# Projet_Architecture_logicielle
