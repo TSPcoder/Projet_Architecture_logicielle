@@ -13,7 +13,7 @@ import pckg.EtatAddition;
 import pckg.ExpressionLA;
 
 /*
- * La methode principale est info
+ * La methode principale est info(Class c)
  * 		elle prend en argument une Class
  * 		et retourne une HashMap
  * 
@@ -37,7 +37,7 @@ public class InfoFinder {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
 		/*
-		 * type_name: interface or class
+		 * type: interface or class
 		 * name: name of the class
 		 * package: name of the package
 		 * implements: list with implements
@@ -162,7 +162,6 @@ public class InfoFinder {
 		System.out.println("Methods : " + hm.get("methods"));
 		System.out.println("Description : " + hm.get("description"));
 		System.out.println();
-		
 	}
 	
 	public static void main(String[] args) {
@@ -171,6 +170,5 @@ public class InfoFinder {
 		testDisplay(CasAddition.class);
 		testDisplay(CasLitteral.class);
 		testDisplay(ExpressionLA.class);
-		
 	}
 }
