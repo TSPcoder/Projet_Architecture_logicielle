@@ -16,6 +16,7 @@ public class DessinDepuisClasse {
 		this.exSVG = exSVG ;
 		this.exSVG.addln(this.exSVG.start_graph());
 	}
+	
 	/*public void writeInterfaces(){
 		ArrayList<String> s = (ArrayList<String>) this.hm.get("implements") ;
 		for(String str : s){

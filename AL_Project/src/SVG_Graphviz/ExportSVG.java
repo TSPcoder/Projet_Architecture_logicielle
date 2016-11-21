@@ -4,40 +4,49 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 
+// Classe qui permet d'envoyer la requête à dot.exe 
+
 public class ExportSVG {
 	
 	private final String tempPath = "./";
 	// path du fichier dot.exe à mettre ici 
 	private final String dotPath ="C:/Users/Tom Bigault/Desktop/Architecture Logicielle/dot/bin/dot.exe";
+	// plusieurs formats disponibles ( svg, pdf .. etc )
 	public final static String fileType = "svg";
+	// taille image svg
 	private final int[] dpiSizes = {46, 51, 57, 63, 70, 78, 86, 96, 106, 116, 128, 141, 155, 170, 187, 206, 226, 249};
     private int currentDpiPos = 2;
 	
+    // notre requête
     private StringBuilder graph ;
     
     public ExportSVG(){
     	this.graph = new StringBuilder() ;
     }
     
+    // début de requête
     public String start_graph() {
         return "digraph G {";
     }
-    
+    // fin de requête
     public String end_graph() {
         return "}";
     }
+    // ajouter une ou plusieurs lignes à la requête
     public void addln(String line) {
         this.graph.append(line + "\n");
     }
-    
+    // nouvelle requête
     public void clearGraph(){
         this.graph = new StringBuilder();
     }
-	
+	// obtenir String requête
     public String getDotSource() {
         return this.graph.toString();
     }
     
+    //Envoie du fichier contenant la requête à dot.exe
+    //Définition de certains paramêtres pour la création du fichier svg .
     
     public byte[] getSVG( File file){
     	File graph_svg;
@@ -70,6 +79,7 @@ public class ExportSVG {
 		return imgSVG;
 	}
     
+    // Insertion de l'image dans le fichier cible 
     public int writeSVG(byte[] img, File file){
         try {
             FileOutputStream fos = new FileOutputStream(file);
@@ -82,6 +92,7 @@ public class ExportSVG {
         
     }
     
+    // création d'un fichier contenant la requête à envoyer à dot.exe
     public byte[] getGraph(String dotSource){
         
     	File graph;
@@ -100,6 +111,7 @@ public class ExportSVG {
 		
     }
 
+    // recopie de la requête dans le fichier
 	private File writeSource(String str) {
 		 File temp;
 	        try {
