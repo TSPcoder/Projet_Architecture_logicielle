@@ -6,21 +6,19 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pckg.AdditionLA;
-import pckg.CasAddition;
-import pckg.CasLitteral;
-import pckg.EtatAddition;
-import pckg.ExpressionLA;
-
 /*
  * La methode principale est info(Class c)
+ *		elle est statique
  * 		elle prend en argument une Class
- * 		et retourne une HashMap
- * 
- * PS1 : Pour voir ce que contient la HashMap,
- * 			aller voir la methode
- * PS2 : Pour voir comment acceder aux valeurs
- * 			d'une HashMap, voir methode main
+ * 		et retourne une HashMap qui contient :
+ * 			"type_name": interface or class
+ *          "name": name of the class
+ * 			"package": name of the package
+ * 			"implements": list with implements
+ * 			"extends": list with extends
+ * 			"variables": list with all the instances variables (name and type)
+ * 			"constructors": list with all the constructors
+ * 			"methods": list with all the methods
  * 
  * @author David
  *
@@ -35,17 +33,6 @@ public class InfoFinder {
 	 */
 	public static HashMap<String, Object> info(Class c) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
-		
-		/*
-		 * type: interface or class
-		 * name: name of the class
-		 * package: name of the package
-		 * implements: list with implements
-		 * extends: list with extends
-		 * variables: list with all the instances variables (name and type)
-		 * constructors: list with all the constructors
-		 * methods: list with all the methods
-		 */
 		
 		boolean isInterface = c.isInterface();
 		map.put("type", (isInterface) ? "interface" : "class");
@@ -98,7 +85,6 @@ public class InfoFinder {
 	
 	/**
 	 * Build an ArrayList with all methods
-	 * TODO : ne pas prendre en compte les methodes etendues par une autre classe
 	 * 
 	 * @param c Class
 	 * @return an ArrayList of Strings
@@ -150,25 +136,4 @@ public class InfoFinder {
 		return result;
 	}
 	
-	public static void testDisplay(Class c) {
-		HashMap<String, Object> hm = info(c);
-		System.out.println("Type : " + hm.get("type"));
-		System.out.println("Name : " + hm.get("name"));
-		System.out.println("Package : " + hm.get("package"));
-		System.out.println("Implements : " + hm.get("implements"));
-		System.out.println("Extends : " + hm.get("extends"));
-		System.out.println("Variables : " + hm.get("variables"));
-		System.out.println("Constructors : " + hm.get("constructors"));
-		System.out.println("Methods : " + hm.get("methods"));
-		System.out.println("Description : " + hm.get("description"));
-		System.out.println();
-	}
-	
-	public static void main(String[] args) {
-		testDisplay(AdditionLA.class);
-		testDisplay(EtatAddition.class);
-		testDisplay(CasAddition.class);
-		testDisplay(CasLitteral.class);
-		testDisplay(ExpressionLA.class);
-	}
 }
