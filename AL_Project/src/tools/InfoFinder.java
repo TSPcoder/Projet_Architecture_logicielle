@@ -77,7 +77,10 @@ public class InfoFinder {
 			for (Class<?> sc : constructor.getParameterTypes()) {
 				s = s + sc.getSimpleName() + ",";
 			}
-			s = s.substring(0, s.length()-1) +  ")";
+			if (s.charAt(s.length() - 1) != '(') {
+				s = s.substring(0, s.length()-1);
+			}
+			s += ")";
 			result.add(s);
 		}
 		return result;
@@ -90,6 +93,7 @@ public class InfoFinder {
 	 * @return an ArrayList of Strings
 	 * 		   (each element is like "method_name(type1):returned_type")
 	 */
+
 	public static ArrayList<String> methods(Class<?> c) {
 		ArrayList<String> result = new ArrayList<String>();
 
