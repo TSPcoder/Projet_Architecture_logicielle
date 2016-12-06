@@ -1,24 +1,14 @@
 package diagram;
 
-import java.awt.Color;
-
-import type.IType;
+import type.Type;
 
 public class Diagram implements IDiagram {
 
-	public void addType(IType type) {
+	public void addType(Type type) {
 		// TODO Auto-generated method stub
 	}
 	
 	public void insertDiagram(IDiagram diagram) {
-		// TODO Auto-generated method stub
-	}
-
-	public void setColor(Color color) {
-		// TODO Auto-generated method stub
-	}
-
-	public void setThickness(int thickness) {
 		// TODO Auto-generated method stub
 	}
  

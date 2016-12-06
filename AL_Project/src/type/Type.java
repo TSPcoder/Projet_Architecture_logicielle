@@ -1,5 +1,5 @@
 package type;
 
-public class Type implements IType {
+public interface Type {
 
 }

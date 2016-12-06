@@ -1,20 +1,20 @@
 package type;
 
-public class Relation implements IType {
+public class Relation implements Type {
 
-	private Type entry;
-	private Type output;
+	private Classe entry;
+	private Classe output;
 	
-	public Relation(Type entry, Type output) {
+	public Relation(Classe entry, Classe output) {
 		this.entry = entry;
 		this.output = output;
 	}
 	
-	public Type getEntry() {
+	public Classe getEntry() {
 		return this.entry;
 	}
 	
-	public Type getOutput() {
+	public Classe getOutput() {
 		return this.output;
 	}
 

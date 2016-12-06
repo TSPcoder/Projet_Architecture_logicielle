@@ -1,16 +1,11 @@
 package diagram;
 
-import java.awt.Color;
-import type.IType;
+import type.Type;
 
 public interface IDiagram {
 	
-	public void addType(IType type);
+	public void addType(Type type);
 	
 	public void insertDiagram(IDiagram diagram);
-	
-	public void setColor(Color color);
-	
-	public void setThickness(int thickness);
 	
 }
