@@ -10,5 +10,10 @@ public interface Type {
 
 	/** Permet d'obtenir l'information s  */
 	public Object getInfo(String s);
+	
+	/** Permet d'obtenir la nature du type (Classe, Interface ...) */
+	public String getType();
+	
+	
 
 }

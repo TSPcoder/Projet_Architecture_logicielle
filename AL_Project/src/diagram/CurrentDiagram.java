@@ -22,6 +22,10 @@ public class CurrentDiagram implements IDiagram {
 	public ArrayList<Type> getTypes() {
 		return types;
 	}
+	
+	public Type getType(int i) {
+		return types.get(i);
+	}
 
 	@Override
 	public void addType(Type type) {
@@ -40,7 +44,7 @@ public class CurrentDiagram implements IDiagram {
 
 	@Override
 	public boolean isEmpty() {
-		return types.size()>0;
+		return types.size()==0;
 	}
 
 }

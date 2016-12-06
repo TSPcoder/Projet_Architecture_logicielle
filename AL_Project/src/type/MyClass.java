@@ -27,6 +27,11 @@ public class MyClass implements Type {
 	public Object getInfo(String key){
 		return this.label.get(key);
 	}
+	@Override
+	public String getType() {
+		EnumerationTypes e = EnumerationTypes.CLASSE;
+		return e.toString();
+	}
 	
 	
 	

@@ -19,9 +19,16 @@ public class Relation implements Type {
 	}
 
 	@Override
-	public void etiquetter() {
+	public Object getInfo(String s) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
+	@Override
+	public String getType() {
+		EnumerationTypes e = EnumerationTypes.RELATION;
+		return e.toString();
+	}
+
 
 }

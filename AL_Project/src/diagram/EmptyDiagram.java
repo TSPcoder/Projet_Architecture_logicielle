@@ -27,4 +27,16 @@ public class EmptyDiagram implements IDiagram {
 		return true ;
 	}
 
+	@Override
+	public Type getType(int i) {
+		// TODO Auto-generated method stub
+		return null ;
+	}
+
+	@Override
+	public ArrayList<Type> getTypes() {
+		// TODO Auto-generated method stub
+		return types;
+	}
+
 }

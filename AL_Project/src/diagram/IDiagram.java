@@ -1,5 +1,7 @@
 package diagram;
 
+import java.util.ArrayList;
+
 import type.Type;
 
 /**
@@ -19,5 +21,10 @@ public interface IDiagram {
 	
 	/** Vérifie si le diagramme est vide */
 	public boolean isEmpty() ;
+	
+	/** Obtention du diagramme */
+	public Type getType(int i);
+	
+	public ArrayList<Type> getTypes();
 	
 }
