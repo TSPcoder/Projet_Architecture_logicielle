@@ -1,11 +1,30 @@
 package diagram;
 
+import java.util.ArrayList;
+
 import type.Type;
+
+/**
+ * Cette interface représente notre diagramme avec l'ensemble des composants UML
+ * 
+ * Les composants sont représentés par des types
+ *
+ */
 
 public interface IDiagram {
 	
+	/** Permet l'ajout d'un type dans le diagramme */
 	public void addType(Type type);
 	
-	public void insertDiagram(IDiagram diagram);
+	/** Permet L'insertion d'un diagramme à l'intérieur d'un autre diagramme */
+	public IDiagram insertDiagram(IDiagram diagram);
+	
+	/** Vérifie si le diagramme est vide */
+	public boolean isEmpty() ;
+	
+	/** Obtention du diagramme */
+	public Type getType(int i);
+	
+	public ArrayList<Type> getTypes();
 	
 }

@@ -2,26 +2,33 @@ package type;
 
 public class Relation implements Type {
 
-	private Classe entry;
-	private Classe output;
+	private Type entry;
+	private Type output;
 	
-	public Relation(Classe entry, Classe output) {
+	public Relation(Type entry, Type output) {
 		this.entry = entry;
 		this.output = output;
 	}
 	
-	public Classe getEntry() {
+	public Type getEntry() {
 		return this.entry;
 	}
 	
-	public Classe getOutput() {
+	public Type getOutput() {
 		return this.output;
 	}
 
 	@Override
-	public void etiquetter() {
+	public Object getInfo(String s) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
+
+	@Override
+	public String getType() {
+		EnumerationTypes e = EnumerationTypes.RELATION;
+		return e.toString();
+	}
+
 
 }

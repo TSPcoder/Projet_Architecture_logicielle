@@ -2,12 +2,12 @@ package interpretor;
 
 import diagram.IDiagram;
 
-public class SVG implements Dessin {
+public class DrawingBatik implements Drawing {
 
 	private IDiagram diagram;
 	private String svg_name;
 	
-	public SVG(IDiagram diagram, String name) {
+	public DrawingBatik(IDiagram diagram, String name) {
 		this.diagram = diagram;
 		this.svg_name = name;
 	}
@@ -16,12 +16,6 @@ public class SVG implements Dessin {
 	public void display() {
 		// TODO Auto-generated method stub
 		
-	}
-
-	@Override
-	public IDiagram getDiagram() {
-		// TODO Auto-generated method stub
-		return this.diagram;
 	}
 	
 	public String getSVGName() {
