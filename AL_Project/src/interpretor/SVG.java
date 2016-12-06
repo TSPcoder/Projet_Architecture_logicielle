@@ -2,7 +2,7 @@ package interpretor;
 
 import diagram.IDiagram;
 
-public class SVG implements Dessin {
+public class SVG implements Drawing {
 
 	private IDiagram diagram;
 	private String svg_name;

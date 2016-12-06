@@ -2,7 +2,7 @@ package interpretor;
 
 import diagram.IDiagram;
 
-public interface Dessin {
+public interface Drawing {
 
 	public void display();
 	
