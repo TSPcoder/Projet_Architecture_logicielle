@@ -79,42 +79,42 @@ public class MaClasse implements Diagramme {
 		s += "<text x=\"" + curseurMobile.getX() + "\" y=\"" + curseurMobile.getY() + "\">" + "<< Java Class >>" + "</text>";
 		
 		// On va placer le nom de la classe
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		String nomClasse = (String) etiquette.get("name") ;
 		s += "<text x=\"" + curseurMobile.getX() + "\" y=\"" + curseurMobile.getY() + "\">" + nomClasse + "</text>";
 		
 		// On va placer le nom du package
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		curseurMobile=curseurMobile.right();
 		String nomPackage = (String) etiquette.get("package") ;
 		s += "<text x=\"" + curseurMobile.getX() + "\" y=\"" + curseurMobile.getY() + "\">" + nomPackage + "</text>";
 		
 		// On place la ligne noire
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		s += "<line x1=\"" + p.getX() + "\" y1=\"" + curseurMobile.getY() + "\" x2=\"" + dim.getLargeur()
 				+"\" y2=\""+ curseurMobile.getY() +  "\" stroke=\"" + c.getCouleurContour() + "\" ";
 		
 		// On place les attributs
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		curseurMobile.setX(0);
 		ArrayList<String> vars = (ArrayList<String>) etiquette.get("variables") ;
 		System.out.println(vars);
 		for (int i=0 ; i<vars.size() ; i++){
 			s += "<text x=\"" + curseurMobile.getX() + "\" y=\"" + curseurMobile.getY() + "\">" + vars.get(i) + "</text>";
-			curseurMobile=curseurMobile.down();
+			curseurMobile=curseurMobile.down(20);
 		}
 		
 		// On place la ligne noire
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		s += "<line x1=\"" + curseurMobile.getX() + "\" y1=\"" + curseurMobile.getY() + "\" x2=\"" + dim.getLargeur()
 				+"\" y2=\""+ curseurMobile.getY() +  "\" stroke=\"" + c.getCouleurContour() + "\" ";
 		
 		// On place les méthodes
-		curseurMobile=curseurMobile.down();
+		curseurMobile=curseurMobile.down(20);
 		ArrayList<String> methods = (ArrayList<String>) etiquette.get("methods") ;
 		for (String method : methods){
 			s += "<text x=\"" + curseurMobile.getX() + "\" y=\"" + curseurMobile.getY() + "\">" + method + "</text>";
-			curseurMobile=curseurMobile.down();
+			curseurMobile=curseurMobile.down(20);
 		}
 		return s ;
 		
