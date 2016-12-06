@@ -1,9 +1,16 @@
 package diagram;
 
+import java.util.ArrayList;
+
 import type.Type;
 
 public class EmptyDiagram implements IDiagram {
 	
+	ArrayList<Type> types ;
+	
+	public EmptyDiagram() {
+		this.types=new ArrayList<>();
+	}
 	
 	@Override
 	public void addType(Type type) {
@@ -11,9 +18,13 @@ public class EmptyDiagram implements IDiagram {
 	}
 
 	@Override
-	public void insertDiagram(IDiagram diagram) {
-		// TODO Auto-generated method stub
-		
+	public IDiagram insertDiagram(IDiagram diagram) {
+		return diagram ;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return true ;
 	}
 
 }

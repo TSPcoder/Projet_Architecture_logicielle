@@ -11,10 +11,13 @@ import type.Type;
 
 public interface IDiagram {
 	
-	// Permet l'ajout d'un type dans le diagramme
+	/** Permet l'ajout d'un type dans le diagramme */
 	public void addType(Type type);
 	
-	// Permet L'insertion d'un diagramme à l'intérieur d'un autre diagramme
-	public void insertDiagram(IDiagram diagram);
+	/** Permet L'insertion d'un diagramme à l'intérieur d'un autre diagramme */
+	public IDiagram insertDiagram(IDiagram diagram);
+	
+	/** Vérifie si le diagramme est vide */
+	public boolean isEmpty() ;
 	
 }

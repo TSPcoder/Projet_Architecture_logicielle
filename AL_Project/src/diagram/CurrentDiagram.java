@@ -19,6 +19,10 @@ public class CurrentDiagram implements IDiagram {
 		this.types=l ;
 	}
 	
+	public ArrayList<Type> getTypes() {
+		return types;
+	}
+
 	@Override
 	public void addType(Type type) {
 		// On ajoute le type
@@ -26,9 +30,17 @@ public class CurrentDiagram implements IDiagram {
 	}
 
 	@Override
-	public void insertDiagram(IDiagram diagram) {
-		// TODO Auto-generated method stub
-		
+	public IDiagram insertDiagram(IDiagram diagram) {
+		if (!diagram.isEmpty()){
+			CurrentDiagram d = (CurrentDiagram) diagram ;
+			types.addAll(d.getTypes());
+		}
+		return this ;
+	}
+
+	@Override
+	public boolean isEmpty() {
+		return types.size()>0;
 	}
 
 }
