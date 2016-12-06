@@ -18,4 +18,10 @@ public class Relation implements Type {
 		return this.output;
 	}
 
+	@Override
+	public void etiquetter() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
