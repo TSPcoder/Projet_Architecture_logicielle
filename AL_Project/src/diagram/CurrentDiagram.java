@@ -14,6 +14,7 @@ public class CurrentDiagram implements IDiagram {
 	// Ensemble des types de notre diagramme
 	// Ces types sont divers : classes, interfaces, relations ...
 	ArrayList<Type> types ;
+	String title ;
 	
 	public CurrentDiagram(ArrayList<Type> l) {
 		this.types=l ;
@@ -45,6 +46,11 @@ public class CurrentDiagram implements IDiagram {
 	@Override
 	public boolean isEmpty() {
 		return types.size()==0;
+	}
+
+	@Override
+	public void etiquetter(String nomDiagramme) {
+		this.title=nomDiagramme;
 	}
 
 }

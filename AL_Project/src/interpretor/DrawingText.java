@@ -1,25 +1,29 @@
 package interpretor;
 
 import java.util.ArrayList;
-
 import type.MyClass;
 import type.Type;
 import diagram.CurrentDiagram;
 import diagram.IDiagram;
 
+/**
+ * Cette classe représente une représentation du diagramme sous forme de texte
+ * 
+ */
+
 public class DrawingText implements Drawing {
-	IDiagram d ;
+	IDiagram diagram ;
 	
 	public DrawingText(IDiagram d) {
-		this.d=d;
+		this.diagram=d;
 	}
 
 	@Override
-	public void display() {
+	public void draw() {
 		String s = "" ;
-		if (!d.isEmpty()){
-			for (int i = 0 ; i < d.getTypes().size() ; i++){
-				Type t = d.getType(i);
+		if (!diagram.isEmpty()){
+			for (int i = 0 ; i < diagram.getTypes().size() ; i++){
+				Type t = diagram.getType(i);
 				if(t.getType()=="Class"){
 					s+= "Type numéro " + (i+1) + " : Classe \"" + t.getInfo("name") + "\" \n" ;
 					
@@ -47,7 +51,7 @@ public class DrawingText implements Drawing {
 		listeTypes.add(new MyClass("diagram.CurrentDiagram"));
 		CurrentDiagram diag = new CurrentDiagram(listeTypes);
 		DrawingText dessinTexte = new DrawingText(diag);
-		dessinTexte.display();
+		dessinTexte.draw();
 	}
 
 }
