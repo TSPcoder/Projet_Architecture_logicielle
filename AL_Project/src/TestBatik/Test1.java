@@ -14,6 +14,8 @@ import java.awt.geom.AffineTransform;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JFrame;
 
@@ -27,6 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
+import tools.InfoFinder;
 import Dessin.Curseur;
 
 public class Test1 {
@@ -56,32 +59,80 @@ public class Test1 {
 		return (largeur/2 - taille.getX()/2) ;
 	}
 	
-	public static void etiquetter(SVGGraphics2D svgGenerator){
+	public static void etiquetter(SVGGraphics2D svgGenerator) throws Exception {
+		
+		
+		HashMap<String, Object> infos = InfoFinder.info(Class.forName("Dessin.Caracteristiques"));
 		
 		Curseur depart = new Curseur(10,10);
 		Curseur curseurMobile = depart ;
 		
 		svgGenerator.setPaint(Color.black);
 		
-		svgGenerator.drawRect(curseurMobile.getX(), curseurMobile.getY(), largeur, hauteur);
-		svgGenerator.drawLine(curseurMobile.getX(), hauteur/3, curseurMobile.getX() + largeur, hauteur/3);
+		// svgGenerator.drawRect(curseurMobile.getX(), curseurMobile.getY(), largeur, hauteur);
+		// svgGenerator.drawLine(curseurMobile.getX(), hauteur/3, curseurMobile.getX() + largeur, hauteur/3);
 		
-		// Texte à placer 
+		// Texte à placer : 1ère partie
 		String s = ("<< Java Class >>") ;
 		Curseur tailleTexte = tailleTexte(s);
 		svgGenerator.drawString(s, curseurMobile.getX() + largeur/2 - tailleTexte.getX()/2, curseurMobile.getY() + tailleTexte.getY());
 		curseurMobile = curseurMobile.down(tailleTexte.getY());
 		
-		s=("Test1");
+		s=(String) infos.get("name");
 		tailleTexte = tailleTexte(s);
 		svgGenerator.drawString(s, depart.getX() + largeur/2 - tailleTexte.getX()/2, curseurMobile.getY() + tailleTexte.getY());
+		curseurMobile = curseurMobile.down(tailleTexte.getY());
 		
+		s=(String) infos.get("package");
+		tailleTexte = tailleTexte(s);
+		svgGenerator.drawString(s, depart.getX() + largeur/2 - tailleTexte.getX()/2, curseurMobile.getY() + tailleTexte.getY());
+		curseurMobile = curseurMobile.down(tailleTexte.getY());
+		
+		// 1er trait
+		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
+		svgGenerator.drawLine(depart.getX(), curseurMobile.getY(), depart.getX() + largeur, curseurMobile.getY());
+		
+		// Variables d'instances
+		int ecartDroit = tailleTexte(s).getY() ; // hauteur de la string s
+		curseurMobile.setX(ecartDroit);
+		ArrayList<String> l = (ArrayList<String>) infos.get("variables");
+		for (String var : l){
+			s=var ;
+			svgGenerator.drawString(s, curseurMobile.getX(), curseurMobile.getY() + tailleTexte.getY());
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+		}
+		
+		// 2e trait
+		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
+		svgGenerator.drawLine(depart.getX(), curseurMobile.getY(), depart.getX() + largeur, curseurMobile.getY());
+		
+		// Constructeur(s)
+		l = (ArrayList<String>) infos.get("constructors");
+		for (String constructor : l) {
+			s = constructor;
+			svgGenerator.drawString(s, curseurMobile.getX(),
+					curseurMobile.getY() + tailleTexte.getY());
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+		}
+		
+		// Méthode(s)
+		l = (ArrayList<String>) infos.get("methods");
+		for (String method : l) {
+			s = method;
+			svgGenerator.drawString(s, curseurMobile.getX(),
+					curseurMobile.getY() + tailleTexte.getY());
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+		}
+		
+		// Tracé du rectangle
+		//curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
+		svgGenerator.drawRect(depart.getX(), depart.getY(), largeur, curseurMobile.getY());
 		
 		svgGenerator.setSVGCanvasSize(new Dimension(500, 500));
 		
 	}
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
 
 		/*
 		 * // Get a DOMImplementation. DOMImplementation domImpl =
