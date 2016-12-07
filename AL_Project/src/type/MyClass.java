@@ -9,7 +9,7 @@ public class MyClass implements Type {
 	HashMap<String, Object> label ;
 	
 	/**
-	 * Le constructeur initialise l'étiquette  
+	 * Le constructeur initialise l'étiquette "label" 
 	 * 
 	 * @param nameClasse String
 	 */

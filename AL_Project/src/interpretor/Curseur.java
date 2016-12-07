@@ -33,8 +33,8 @@ public class Curseur {
 	}
 	
 	// On utilise cette méthode afin de placer un texte en dessous de la position du curseur
-	public Curseur down() {
-		return new Curseur(this.getX(), this.getY() + 20);
+	public Curseur down(int val) {
+		return new Curseur(this.getX(), this.getY() + val);
 	}
 	
 	public Curseur right() {
