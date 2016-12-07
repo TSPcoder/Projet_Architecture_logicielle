@@ -7,9 +7,11 @@ import type.Type;
 public class EmptyDiagram implements IDiagram {
 	
 	ArrayList<Type> types ;
+	String title ;
 	
 	public EmptyDiagram() {
 		this.types=new ArrayList<>();
+		this.title="Diagramme vide";
 	}
 	
 	@Override
@@ -37,6 +39,11 @@ public class EmptyDiagram implements IDiagram {
 	public ArrayList<Type> getTypes() {
 		// TODO Auto-generated method stub
 		return types;
+	}
+
+	@Override
+	public void etiquetter(String nomDiagramme) {
+		this.title=nomDiagramme;
 	}
 
 }

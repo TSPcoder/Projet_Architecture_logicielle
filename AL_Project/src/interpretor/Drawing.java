@@ -12,5 +12,5 @@ import diagram.IDiagram;
 public interface Drawing {
 
 	/** Permet d'afficher le dessin sous la forme demandée (XML, texte etc..)  */
-	public void display();
+	public void draw();
 }

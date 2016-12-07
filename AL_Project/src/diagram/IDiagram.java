@@ -25,6 +25,9 @@ public interface IDiagram {
 	/** Obtention du diagramme */
 	public Type getType(int i);
 	
+	/** Ensemble des types du diagramme */
 	public ArrayList<Type> getTypes();
 	
+	/** Donne un nom au diagramme */
+	public void etiquetter (String nomDiagramme);
 }
