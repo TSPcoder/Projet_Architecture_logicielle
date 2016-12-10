@@ -40,5 +40,9 @@ public class Curseur {
 	public Curseur right() {
 		return new Curseur(this.getX() + 25, this.getY() );
 	}
+	
+	public void display(){
+		System.out.println("( X : " + this.getX() + " , Y : " + this.getY() + " )");
+	}
 
 }
