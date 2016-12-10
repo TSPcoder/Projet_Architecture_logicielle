@@ -6,12 +6,10 @@ import type.Type;
 
 public class EmptyDiagram implements IDiagram {
 	
-	ArrayList<Type> types ;
 	String title ;
 	
-	public EmptyDiagram() {
-		this.types=new ArrayList<>();
-		this.title="Diagramme vide";
+	public EmptyDiagram(String title) {
+		this.title= title + " - Diagramme vide";
 	}
 	
 	@Override
@@ -30,20 +28,8 @@ public class EmptyDiagram implements IDiagram {
 	}
 
 	@Override
-	public Type getType(int i) {
-		// TODO Auto-generated method stub
-		return null ;
-	}
-
-	@Override
-	public ArrayList<Type> getTypes() {
-		// TODO Auto-generated method stub
-		return types;
-	}
-
-	@Override
-	public void etiquetter(String nomDiagramme) {
-		this.title=nomDiagramme;
+	public ArrayList<Type> getTypes() throws EmptyDiagramException {
+		throw new EmptyDiagramException();
 	}
 
 }

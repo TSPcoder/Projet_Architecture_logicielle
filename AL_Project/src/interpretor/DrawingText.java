@@ -1,9 +1,11 @@
 package interpretor;
 
 import java.util.ArrayList;
+
 import type.MyClass;
 import type.Type;
 import diagram.CurrentDiagram;
+import diagram.EmptyDiagramException;
 import diagram.IDiagram;
 
 /**
@@ -19,11 +21,12 @@ public class DrawingText implements Drawing {
 	}
 
 	@Override
-	public void draw() {
+	public void draw() throws EmptyDiagramException {
 		String s = "" ;
 		if (!diagram.isEmpty()){
 			for (int i = 0 ; i < diagram.getTypes().size() ; i++){
-				Type t = diagram.getType(i);
+				// On récupère les types du diagrammes
+				Type t = diagram.getTypes().get(i);
 				if(t.getType()=="Class"){
 					s+= "Type numéro " + (i+1) + " : Classe \"" + t.getInfo("name") + "\" \n" ;
 					
@@ -45,13 +48,21 @@ public class DrawingText implements Drawing {
 		System.out.println(s);
 	}
 	
+	
+	// 1er test
 	public static void main(String[] args) {
 		ArrayList<Type> listeTypes = new ArrayList<>();
 		listeTypes.add(new MyClass("type.Relation"));
 		listeTypes.add(new MyClass("diagram.CurrentDiagram"));
-		CurrentDiagram diag = new CurrentDiagram(listeTypes);
+		String title = "Mon diagramme texte" ;
+		CurrentDiagram diag = new CurrentDiagram(listeTypes , title);
 		DrawingText dessinTexte = new DrawingText(diag);
-		dessinTexte.draw();
+		try {
+			dessinTexte.draw();
+		} catch (EmptyDiagramException e) {
+			System.out.println("Diagramme Vide !");
+			e.printStackTrace();
+		}
 	}
 
 }

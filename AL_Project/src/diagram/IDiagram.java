@@ -22,12 +22,10 @@ public interface IDiagram {
 	/** Vérifie si le diagramme est vide */
 	public boolean isEmpty() ;
 	
-	/** Obtention du diagramme */
-	public Type getType(int i);
-	
-	/** Ensemble des types du diagramme */
-	public ArrayList<Type> getTypes();
-	
-	/** Donne un nom au diagramme */
-	public void etiquetter (String nomDiagramme);
+	/** Ensemble des types du diagramme. 
+	 * Une exception se produit si le diagramme est vide
+	 * 
+	 * @throws EmptyDiagramException 
+	 * */
+	public ArrayList<Type> getTypes() throws EmptyDiagramException;
 }

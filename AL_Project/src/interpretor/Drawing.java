@@ -1,5 +1,6 @@
 package interpretor;
 
+import diagram.EmptyDiagramException;
 import diagram.IDiagram;
 
 /**
@@ -11,6 +12,10 @@ import diagram.IDiagram;
 
 public interface Drawing {
 
-	/** Permet d'afficher le dessin sous la forme demandée (XML, texte etc..)  */
-	public void draw();
+	/** Permet d'afficher le dessin sous la forme demandée (XML, texte etc..)  
+	 * 
+	 * @throws EmptyDiagramException 
+	 * */
+	
+	public void draw() throws EmptyDiagramException;
 }

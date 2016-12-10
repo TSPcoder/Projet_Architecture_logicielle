@@ -11,21 +11,16 @@ import type.Type;
 
 public class CurrentDiagram implements IDiagram {
 	
-	// Ensemble des types de notre diagramme
-	// Ces types sont divers : classes, interfaces, relations ...
 	ArrayList<Type> types ;
 	String title ;
 	
-	public CurrentDiagram(ArrayList<Type> l) {
+	public CurrentDiagram(ArrayList<Type> l , String title) {
 		this.types=l ;
+		this.title=title;
 	}
 	
 	public ArrayList<Type> getTypes() {
 		return types;
-	}
-	
-	public Type getType(int i) {
-		return types.get(i);
 	}
 
 	@Override
@@ -46,11 +41,6 @@ public class CurrentDiagram implements IDiagram {
 	@Override
 	public boolean isEmpty() {
 		return types.size()==0;
-	}
-
-	@Override
-	public void etiquetter(String nomDiagramme) {
-		this.title=nomDiagramme;
 	}
 
 }
