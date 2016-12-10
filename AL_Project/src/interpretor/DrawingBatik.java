@@ -12,18 +12,22 @@ import org.apache.batik.svggen.SVGGraphics2D;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
+
 import type.Type;
+import diagram.EmptyDiagramException;
 import diagram.IDiagram;
 
 /**
- * Cette classe représente une représentation du diagramme en utilisant la librairie batik
+ * Cette classe permet une réprésentation du diagramme en utilisant la librairie batik
+ * 
+ * On utilise un objet de type SVGGraphics2D que l'on remplit
  * 
  */
 
 public class DrawingBatik implements Drawing {
 
 	private IDiagram diagram;
-	SVGGraphics2D svgGenerator ;
+	private SVGGraphics2D svgGenerator ;
 	
 	static int largeur = 200 ;
 	
@@ -37,38 +41,56 @@ public class DrawingBatik implements Drawing {
 
 		// Création convertisseur pour ce document
 		this.svgGenerator = new SVGGraphics2D(doc);
+		
+		// On remplit l'objet avec les types contenus dans le diagramme
+		try {
+			this.draw();
+			
+			// Populate the document root with the generated SVG content.
+			Element root = doc.getDocumentElement();
+			svgGenerator.getRoot(root);
+			
+		} catch (EmptyDiagramException e) {
+			e.printStackTrace();
+		}
 	}
+	
+	public IDiagram getDiagram() {
+		return diagram;
+	}
+
+
+	public SVGGraphics2D getSvgGraphics() {
+		return svgGenerator;
+	}
+
+
 	/**
 	 * Cette méthode donne la taille du texte qui est écrit (largeur - hauteur)
 	 */
 	public static Curseur tailleTexte(String texte){
-		//String texte = "Hello World";
 		AffineTransform affinetransform = new AffineTransform();     
 		FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
 		Font font = new Font("Tahoma", Font.PLAIN, 12);
 		int textwidth = (int)(font.getStringBounds(texte, frc).getWidth());
 		int textheight = (int)(font.getStringBounds(texte, frc).getHeight());
-		System.out.println("largeur texte : " + textwidth);
-		System.out.println("hauteur texte : " + textheight);
 		return new Curseur(textwidth, textheight);
 	}
 	
-	public static int placeMilieuX (String texte){
+	/**
+	 * Cette méthode permet de calculer la position où le texte doit commencer
+	 * afin qu'il soit placé au milieu du diagramme
+	 */
+	public static int placeMilieuX(String texte) {
 		Curseur taille = tailleTexte(texte);
-		return (largeur/2 - taille.getX()/2) ;
-	}
-	
-	public void populateRootDocument(SVGDocument doc){
-		// Populate the document root with the generated SVG content.
-		Element root = doc.getDocumentElement();
-		svgGenerator.getRoot(root);
+		return (largeur / 2 - taille.getX() / 2);
 	}
 	
 	@Override
-	public void draw() {
+	public void draw() throws EmptyDiagramException {
 		if (!diagram.isEmpty()){
 			for (int i = 0 ; i < diagram.getTypes().size() ; i++){
-				Type t = diagram.getType(i);
+				Type t = diagram.getTypes().get(i);
 				if(t.getType()=="Class"){
 					this.etiquetterClasse(t);
 				}
