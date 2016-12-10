@@ -13,6 +13,7 @@ import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
+import tools.Placement;
 import type.Type;
 import diagram.EmptyDiagramException;
 import diagram.IDiagram;
@@ -24,16 +25,23 @@ import diagram.IDiagram;
  * 
  */
 
-public class DrawingBatik implements Drawing {
+public class DrawingSVG implements Drawing {
 
 	private IDiagram diagram;
-	private SVGGraphics2D svgGenerator ;
-	
-	static int largeur = 200 ;
-	
-	public DrawingBatik(IDiagram diagram) {
-		this.diagram = diagram;
+	private SVGGraphics2D svgGenerator;
 
+	static int largeur = 200;
+
+	public DrawingSVG(IDiagram diagram) {
+		this.diagram = diagram;
+		this.generateAndDraw();
+	}
+
+	/**
+	 * On génère le fichier SVG et on le remplit (en dessinant)
+	 * 
+	 */
+	public void generateAndDraw() {
 		// Création document SVG
 		DOMImplementation impl = SVGDOMImplementation.getDOMImplementation();
 		String svgNS = SVGDOMImplementation.SVG_NAMESPACE_URI;
@@ -41,95 +49,80 @@ public class DrawingBatik implements Drawing {
 
 		// Création convertisseur pour ce document
 		this.svgGenerator = new SVGGraphics2D(doc);
-		
+
 		// On remplit l'objet avec les types contenus dans le diagramme
 		try {
 			this.draw();
-			
 			// Populate the document root with the generated SVG content.
 			Element root = doc.getDocumentElement();
 			svgGenerator.getRoot(root);
-			
 		} catch (EmptyDiagramException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public IDiagram getDiagram() {
 		return diagram;
 	}
-
 
 	public SVGGraphics2D getSvgGraphics() {
 		return svgGenerator;
 	}
 
-
-	/**
-	 * Cette méthode donne la taille du texte qui est écrit (largeur - hauteur)
-	 */
-	public static Curseur tailleTexte(String texte){
-		AffineTransform affinetransform = new AffineTransform();     
-		FontRenderContext frc = new FontRenderContext(affinetransform,true,true);     
-		Font font = new Font("Tahoma", Font.PLAIN, 12);
-		int textwidth = (int)(font.getStringBounds(texte, frc).getWidth());
-		int textheight = (int)(font.getStringBounds(texte, frc).getHeight());
-		return new Curseur(textwidth, textheight);
-	}
-	
-	/**
-	 * Cette méthode permet de calculer la position où le texte doit commencer
-	 * afin qu'il soit placé au milieu du diagramme
-	 */
-	public static int placeMilieuX(String texte) {
-		Curseur taille = tailleTexte(texte);
-		return (largeur / 2 - taille.getX() / 2);
-	}
-	
 	@Override
 	public void draw() throws EmptyDiagramException {
-		if (!diagram.isEmpty()){
-			for (int i = 0 ; i < diagram.getTypes().size() ; i++){
+		if (!diagram.isEmpty()) {
+			
+			// Création d'une instance de placement
+			Placement p = new Placement();
+			// Ce curseur représente le point supérieur gauche du premier objet (classe ou interface)
+			Curseur depart = new Curseur(10, 10) ;
+			// Ce curseur représente le point supérieur gauche de l'objet courant 
+			Curseur coinSuperieurGauche = new Curseur(10, 10) ;
+			
+			for (int i = 0; i < diagram.getTypes().size(); i++) {
 				Type t = diagram.getTypes().get(i);
-				if(t.getType()=="Class"){
-					this.etiquetterClasse(t);
+				if (t.getType() == "Class") {
+					coinSuperieurGauche.display();
+					this.etiquetterClasse(t,coinSuperieurGauche);
+					p.algoPlacement();
+					coinSuperieurGauche.setX(depart.getX() + p.getPlacementHorizontal()*3*largeur/2);
+					coinSuperieurGauche.setY(depart.getY() + p.getLigneCourante()*4*largeur/3);
 				}
 			}
 		}
 	}
 	
-	public void etiquetterClasse(Type t){
-		Curseur depart = new Curseur(10,10);
-		Curseur curseurMobile = depart ;
+	public void etiquetterClasse(Type t, Curseur coin){
+		Curseur depart = coin;
+		Curseur curseurMobile = coin ;
 		
 		// On définit la couleur 
 		svgGenerator.setPaint(Color.black);
 		
-		// svgGenerator.drawRect(curseurMobile.getX(), curseurMobile.getY(), largeur, hauteur);
-		
 		// Texte à placer : 1ère partie
 		String s = ("<< Java Class >>") ;
-		Curseur tailleTexte = tailleTexte(s);
-		svgGenerator.drawString(s, curseurMobile.getX() + placeMilieuX(s), curseurMobile.getY() + tailleTexte.getY());
+		Curseur tailleTexte = Placement.tailleTexte(s);
+		svgGenerator.drawString(s, curseurMobile.getX() + Placement.placeMilieuX(s,largeur), curseurMobile.getY() + tailleTexte.getY());
 		curseurMobile = curseurMobile.down(tailleTexte.getY());
 		
 		s=(String) t.getInfo("name");
-		tailleTexte = tailleTexte(s);
-		svgGenerator.drawString(s, depart.getX() + placeMilieuX(s), curseurMobile.getY() + tailleTexte.getY());
+		tailleTexte = Placement.tailleTexte(s);
+		svgGenerator.drawString(s, depart.getX() + Placement.placeMilieuX(s,largeur), curseurMobile.getY() + tailleTexte.getY());
 		curseurMobile = curseurMobile.down(tailleTexte.getY());
 		
 		s=(String) t.getInfo("package");
-		tailleTexte = tailleTexte(s);
-		svgGenerator.drawString(s, depart.getX() + placeMilieuX(s), curseurMobile.getY() + tailleTexte.getY());
+		tailleTexte = Placement.tailleTexte(s);
+		svgGenerator.drawString(s, depart.getX() + Placement.placeMilieuX(s,largeur), curseurMobile.getY() + tailleTexte.getY());
 		curseurMobile = curseurMobile.down(tailleTexte.getY());
 		
-		// 1er trait
+		// 1er trait de séparation
 		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
 		svgGenerator.drawLine(depart.getX(), curseurMobile.getY(), depart.getX() + largeur, curseurMobile.getY());
 		
 		// Variables d'instances
-		int ecartDroit = tailleTexte(s).getY() ; // hauteur de la string s
-		curseurMobile.setX(ecartDroit);
+		int ecartDroit = Placement.tailleTexte(s).getY()/2 ; // hauteur de la string s
+		curseurMobile.setX(ecartDroit + curseurMobile.getX());
 		ArrayList<String> l = (ArrayList<String>) t.getInfo("variables");
 		for (String var : l){
 			s=var ;
@@ -137,7 +130,7 @@ public class DrawingBatik implements Drawing {
 			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
 		}
 		
-		// 2e trait
+		// 2e trait de séparation
 		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
 		svgGenerator.drawLine(depart.getX(), curseurMobile.getY(), depart.getX() + largeur, curseurMobile.getY());
 		
@@ -156,12 +149,12 @@ public class DrawingBatik implements Drawing {
 			s = method;
 			svgGenerator.drawString(s, curseurMobile.getX(),
 					curseurMobile.getY() + tailleTexte.getY());
-			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/3);
 		}
 		// Tracé du rectangle
 		//curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
-		svgGenerator.drawRect(depart.getX(), depart.getY(), largeur, curseurMobile.getY());
+		svgGenerator.drawRect(depart.getX(), depart.getY(), largeur, curseurMobile.getY() - depart.getY());
 		
-		svgGenerator.setSVGCanvasSize(new Dimension(500, 500));
+		//svgGenerator.setSVGCanvasSize(new Dimension(500, 500));
 	}
 }

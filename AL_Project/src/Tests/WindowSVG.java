@@ -17,11 +17,11 @@ public class WindowSVG extends JFrame {
 		TestDisplaySVG test = new TestDisplaySVG();
 		
 		getContentPane().add(test.getCanvas());
-		this.pack();
+		//this.pack();
 	}
 	
 	public static void main(String[] args) {
-		WindowSVG w = new WindowSVG(500, 700);
+		WindowSVG w = new WindowSVG(500, 600);
 		w.setVisible(true);
 	}
 }

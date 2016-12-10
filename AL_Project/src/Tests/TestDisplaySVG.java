@@ -1,6 +1,6 @@
 package Tests;
 
-import interpretor.DrawingBatik;
+import interpretor.DrawingSVG;
 
 import java.util.ArrayList;
 
@@ -21,8 +21,11 @@ public class TestDisplaySVG {
 		ArrayList<Type> listeTypes = new ArrayList<>();
 		listeTypes.add(new MyClass("type.Relation"));
 		listeTypes.add(new MyClass("diagram.CurrentDiagram"));
+		listeTypes.add(new MyClass("type.Interface"));
+		listeTypes.add(new MyClass("diagram.EmptyDiagram"));
+		listeTypes.add(new MyClass("type.MyClass"));
 		CurrentDiagram diag = new CurrentDiagram(listeTypes, "diagramme test");
-		DrawingBatik drawingSVG = new DrawingBatik(diag);
+		DrawingSVG drawingSVG = new DrawingSVG(diag);
 		
 		// On affecte le document SVG au canvas
 		SVGDocument doc = (SVGDocument) drawingSVG.getSvgGraphics().getDOMFactory();
