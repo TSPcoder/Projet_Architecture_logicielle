@@ -8,7 +8,7 @@ package type;
 
 public interface Type {
 
-	/** Permet d'obtenir l'information s  */
+	/** Permet d'obtenir l'information relative à la chaîne de caractère s  */
 	public Object getInfo(String s);
 	
 	/** Permet d'obtenir la nature du type (Classe, Interface ...) */
