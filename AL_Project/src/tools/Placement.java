@@ -5,6 +5,9 @@ import interpretor.Curseur;
 import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
+import java.util.ArrayList;
+
+import type.Type;
 
 /**
  * Cette classe regroupe des fonctions nécessaires au placement des différents
@@ -74,5 +77,58 @@ public class Placement {
 	public static int placeMilieuX(String texte, int largeur) {
 		Curseur taille = tailleTexte(texte);
 		return (largeur / 2 - taille.getX() / 2);
+	}
+	
+	/**
+	 * Cette méthode permet retourner la hauteur des objets de type classe ou
+	 * interface (afin de pouvoir tracer le rectangle contenant les
+	 * caractéristiques de l'objet)
+	 */
+	public static int calculHauteur (Curseur depart, Type t){
+		
+		Curseur curseurMobile = new Curseur(depart) ;
+		
+		// Texte à placer : 1ère partie
+		String s = ("<< Java " + t.getType() + " >>") ;
+		Curseur tailleTexte = Placement.tailleTexte(s);
+		curseurMobile = curseurMobile.down(tailleTexte.getY());
+		
+		s=(String) t.getInfo("name");
+		tailleTexte = Placement.tailleTexte(s);
+		curseurMobile = curseurMobile.down(tailleTexte.getY());
+		
+		s=(String) t.getInfo("package");
+		tailleTexte = Placement.tailleTexte(s);
+		curseurMobile = curseurMobile.down(tailleTexte.getY());
+		
+		// 1er trait de séparation
+		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
+		
+		// Variables d'instances
+		int ecartDroit = Placement.tailleTexte(s).getY()/2 ; // hauteur de la string s
+		curseurMobile.setX(ecartDroit + curseurMobile.getX());
+		ArrayList<String> l = (ArrayList<String>) t.getInfo("variables");
+		for (String var : l){
+			s=var ;
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+		}
+		
+		// 2e trait de séparation
+		curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
+		
+		// Constructeur(s)
+		l = (ArrayList<String>) t.getInfo("constructors");
+		for (String constructor : l) {
+			s = constructor;
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/2);
+		}
+		
+		// Méthode(s)
+		l = (ArrayList<String>) t.getInfo("methods");
+		for (String method : l) {
+			s = method;
+			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/3);
+		}
+		return (curseurMobile.getY() - depart.getY());
 	}
 }

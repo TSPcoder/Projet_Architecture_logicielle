@@ -9,6 +9,10 @@ public class Curseur {
 		this.X = X;
 		this.Y = Y;
 	}
+	
+	public Curseur(Curseur c){
+		this(c.getX(), c.getY());
+	}
 
 	public int getX() {
 		return X;
@@ -41,6 +45,7 @@ public class Curseur {
 		return new Curseur(this.getX() + 25, this.getY() );
 	}
 	
+	// Affichage des coordonnées du point
 	public void display(){
 		System.out.println("( X : " + this.getX() + " , Y : " + this.getY() + " )");
 	}

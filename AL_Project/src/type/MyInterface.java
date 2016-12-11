@@ -5,9 +5,9 @@ import java.util.HashMap;
 import tools.InfoFinder;
 
 /**
- * MyClass représente l'objet Classe dans un diagramme UML
+ * MyInterface représente l'objet Interface dans un diagramme UML
  */
-public class MyClass implements Type {
+public class MyInterface implements Type {
 
 	HashMap<String, Object> label;
 
@@ -17,25 +17,22 @@ public class MyClass implements Type {
 	 * @param nameClasse
 	 *            String
 	 */
-	public MyClass(String nameClass) {
+	public MyInterface(String nameInterface) {
 		try {
-			this.label = InfoFinder.info(Class.forName(nameClass));
+			this.label = InfoFinder.info(Class.forName(nameInterface));
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public HashMap<String, Object> getLabel() {
-		return label;
-	}
-
+	@Override
 	public Object getInfo(String key) {
 		return this.label.get(key);
 	}
 
 	@Override
 	public String getType() {
-		EnumerationTypes e = EnumerationTypes.CLASSE;
+		EnumerationTypes e = EnumerationTypes.INTERFACE;
 		return e.toString();
 	}
 

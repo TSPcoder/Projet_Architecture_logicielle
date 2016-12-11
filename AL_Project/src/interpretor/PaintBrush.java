@@ -1,11 +1,13 @@
 package interpretor;
 
-public class Pinceau {
+import java.awt.Color;
+
+public class PaintBrush {
 	private int epaisseurTrait ;
-	private String couleurContour ;
-	private String couleurRemplissage ;
+	private Color couleurContour ;
+	private Color couleurRemplissage ;
 	
-	public Pinceau(int epaisseur , String couleurC, String couleurR) {
+	public PaintBrush(int epaisseur , Color couleurC, Color couleurR) {
 		this.couleurContour = couleurC;
 		this.couleurRemplissage=couleurR;
 		this.epaisseurTrait = epaisseur;
@@ -19,19 +21,19 @@ public class Pinceau {
 		this.epaisseurTrait = epaisseurTrait;
 	}
 
-	public String getCouleurContour() {
+	public Color getCouleurContour() {
 		return couleurContour;
 	}
 
-	public void setCouleurContour(String couleur) {
+	public void setCouleurContour(Color couleur) {
 		this.couleurContour = couleur;
 	}
 
-	public String getCouleurRemplissage() {
+	public Color getCouleurRemplissage() {
 		return couleurRemplissage;
 	}
 
-	public void setCouleurRemplissage(String couleurRemplissage) {
+	public void setCouleurRemplissage(Color couleurRemplissage) {
 		this.couleurRemplissage = couleurRemplissage;
 	}
 }
