@@ -3,6 +3,7 @@ package interpretor;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -29,11 +30,13 @@ public class DrawingSVG implements Drawing {
 
 	private IDiagram diagram;
 	private SVGGraphics2D svgGenerator;
+	private PaintBrush paintBrush ;
 
 	static int largeur = 200;
 
-	public DrawingSVG(IDiagram diagram) {
+	public DrawingSVG(IDiagram diagram, PaintBrush p) {
 		this.diagram = diagram;
+		this.paintBrush=p;
 		this.generateAndDraw();
 	}
 
@@ -82,9 +85,9 @@ public class DrawingSVG implements Drawing {
 			
 			for (int i = 0; i < diagram.getTypes().size(); i++) {
 				Type t = diagram.getTypes().get(i);
-				if (t.getType() == "Class") {
+				if (t.getType() == "Class" || t.getType() == "Interface") {
 					coinSuperieurGauche.display();
-					this.etiquetterClasse(t,coinSuperieurGauche);
+					this.etiquetter(t,coinSuperieurGauche);
 					p.algoPlacement();
 					coinSuperieurGauche.setX(depart.getX() + p.getPlacementHorizontal()*3*largeur/2);
 					coinSuperieurGauche.setY(depart.getY() + p.getLigneCourante()*4*largeur/3);
@@ -93,15 +96,33 @@ public class DrawingSVG implements Drawing {
 		}
 	}
 	
-	public void etiquetterClasse(Type t, Curseur coin){
+	/**
+	 * cette méthode permet de créer le rectangle contenant les informations du
+	 * type et de le remplir avec les couleurs associées
+	 * 
+	 */
+	public void remplissage(Type t, Curseur c) {
+		// Calcul de la hauteur du rectangle
+		int hauteur = Placement.calculHauteur(c, t);
+
+		// On commence par remplir le rectangle
+		svgGenerator.setPaint(this.paintBrush.getCouleurRemplissage());
+		svgGenerator.fill(new Rectangle(c.getX(), c.getY(), largeur, hauteur));
+
+		// On trace ensuite le contour de ce rectangle
+		svgGenerator.setPaint(this.paintBrush.getCouleurContour());
+		svgGenerator.draw(new Rectangle(c.getX(), c.getY(), largeur, hauteur));
+	}
+	
+	public void etiquetter(Type t, Curseur coin){
 		Curseur depart = coin;
 		Curseur curseurMobile = coin ;
 		
-		// On définit la couleur 
-		svgGenerator.setPaint(Color.black);
+		// Création et remplissage du rectangle
+		this.remplissage(t, depart);
 		
 		// Texte à placer : 1ère partie
-		String s = ("<< Java Class >>") ;
+		String s = ("<< Java " + t.getType() + " >>") ;
 		Curseur tailleTexte = Placement.tailleTexte(s);
 		svgGenerator.drawString(s, curseurMobile.getX() + Placement.placeMilieuX(s,largeur), curseurMobile.getY() + tailleTexte.getY());
 		curseurMobile = curseurMobile.down(tailleTexte.getY());
@@ -151,10 +172,7 @@ public class DrawingSVG implements Drawing {
 					curseurMobile.getY() + tailleTexte.getY());
 			curseurMobile = curseurMobile.down(tailleTexte.getY() + tailleTexte.getY()/3);
 		}
-		// Tracé du rectangle
-		//curseurMobile = curseurMobile.down(tailleTexte.getY()/2);
-		svgGenerator.drawRect(depart.getX(), depart.getY(), largeur, curseurMobile.getY() - depart.getY());
-		
-		//svgGenerator.setSVGCanvasSize(new Dimension(500, 500));
+		svgGenerator.setSVGCanvasSize(new Dimension(500, 500));
 	}
+	
 }
