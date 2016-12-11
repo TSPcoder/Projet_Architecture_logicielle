@@ -1,5 +1,12 @@
 package type;
 
+/**
+ * Cette classe modélise une relation entre deux types
+ * 
+ * Elle peut être ici de deux types : extends ou implements
+ * 
+ */
+
 public class Relation implements Type {
 
 	private Type entry;
