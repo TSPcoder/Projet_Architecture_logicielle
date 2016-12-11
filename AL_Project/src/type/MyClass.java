@@ -35,7 +35,7 @@ public class MyClass implements Type {
 
 	@Override
 	public String getType() {
-		EnumerationTypes e = EnumerationTypes.CLASSE;
+		EnumTypes e = EnumTypes.CLASSE;
 		return e.toString();
 	}
 

@@ -1,12 +1,11 @@
 package interpretor;
 
-import java.awt.Color;
+import java.awt.BasicStroke;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Rectangle;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.AffineTransform;
+import java.awt.Stroke;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.batik.anim.dom.SVGDOMImplementation;
 import org.apache.batik.svggen.SVGGraphics2D;
@@ -15,6 +14,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.svg.SVGDocument;
 
 import tools.Placement;
+import type.Relation;
 import type.Type;
 import diagram.EmptyDiagramException;
 import diagram.IDiagram;
@@ -33,10 +33,14 @@ public class DrawingSVG implements Drawing {
 	private PaintBrush paintBrush ;
 
 	static int largeur = 200;
+	
+	// Ensembles des coins supérieur gauche des rectangles ;
+	private HashMap<String, Curseur> coinsSuperieurGauche ;
 
 	public DrawingSVG(IDiagram diagram, PaintBrush p) {
 		this.diagram = diagram;
 		this.paintBrush=p;
+		this.coinsSuperieurGauche=new HashMap<>();
 		this.generateAndDraw();
 	}
 
@@ -86,18 +90,111 @@ public class DrawingSVG implements Drawing {
 			for (int i = 0; i < diagram.getTypes().size(); i++) {
 				Type t = diagram.getTypes().get(i);
 				if (t.getType() == "Class" || t.getType() == "Interface") {
-					coinSuperieurGauche.display();
+					
+					// On remplit svgGenerator
 					this.etiquetter(t,coinSuperieurGauche);
+					String nomType = (String) t.getInfo("name");
+					
+					// On sauvegarde le coin supérieur gauche de notre rectangle
+					this.coinsSuperieurGauche.put(nomType, new Curseur(coinSuperieurGauche));
+					
+					// Détermination du nouveau coin supérieur gauche pour les objets suivants
 					p.algoPlacement();
 					coinSuperieurGauche.setX(depart.getX() + p.getPlacementHorizontal()*3*largeur/2);
 					coinSuperieurGauche.setY(depart.getY() + p.getLigneCourante()*4*largeur/3);
 				}
+				else{
+					if (t.getType() == "Relation"){
+						this.etiquetterRelation(t);			
+					}
+				}
 			}
+		}
+		for (String name : coinsSuperieurGauche.keySet() ){
+			System.out.println(name);
+			coinsSuperieurGauche.get(name).display();
 		}
 	}
 	
 	/**
-	 * cette méthode permet de créer le rectangle contenant les informations du
+	 * Cette méthode permet d'afficher la relation entre deux types
+	 * 
+	 * à noter que la relation s'effectue du type d'entrée au type de sortie
+	 * (l'ordre est donc essentiel !)
+	 * 
+	 * On va ici tracer une ligne entre le coin supérieur gauche et le coin
+	 * inférieur gauche de notre classe
+	 * 
+	 */
+	public void etiquetterRelation(Type t) {
+
+		// On a ici toutes les relations (extends et implements) du type 1 (type
+		// d'entrée)
+		ArrayList<String> extendsType1 = (ArrayList<String>) t.getInfo("extends");
+		ArrayList<String> implementsType1 = (ArrayList<String>) t.getInfo("implements");
+
+		if (extendsType1.size() != 0 || implementsType1.size() != 0) {
+
+			boolean existeRelation = false;
+			boolean flechePleine = false;
+
+			Type type1 = (((Relation) t).getEntry());
+			Type type2 = (((Relation) t).getOutput());
+
+			for (String nomType : extendsType1) {
+				// Si on retrouve le nom du type 2 dans extendsType1, alors
+				// type1 et type2 sont reliés par une relation de type extends
+				if (type2.getInfo("name").equals(nomType)) {
+					existeRelation = true;
+					flechePleine = true;
+				}
+			}
+
+			for (String nomType : implementsType1) {
+				// Si on retrouve le nom du type 2 dans implementsType1, alors
+				// type1 et type2 sont reliés par une relation de type
+				// implements
+				if (type2.getInfo("name").equals(nomType)) {
+					existeRelation = true;
+				}
+			}
+
+			if (existeRelation) {
+				Curseur coinSuperieurGauche1 = coinsSuperieurGauche.get(type1.getInfo("name"));
+				Curseur coinSuperieurGauche2 = coinsSuperieurGauche.get(type2.getInfo("name"));
+
+				int hauteur2 = Placement.calculHauteur(coinSuperieurGauche2,type2);
+
+				Curseur coinInferieurGauche2 = new Curseur(
+						coinSuperieurGauche2.getX(),
+						coinSuperieurGauche2.getY() + hauteur2);
+
+				if (flechePleine) {
+					svgGenerator.drawLine(coinSuperieurGauche1.getX(),
+							coinSuperieurGauche1.getY(),
+							coinInferieurGauche2.getX(),
+							coinInferieurGauche2.getY());
+				} else {
+					final float dash1[] = { 10.0f };
+					final BasicStroke dashed = new BasicStroke(1.0f,
+							BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER,
+							10.0f, dash1, 0.0f);
+					Stroke previousStroke = svgGenerator.getStroke();
+					svgGenerator.setStroke(dashed);
+
+					svgGenerator.drawLine(coinSuperieurGauche1.getX(),
+							coinSuperieurGauche1.getY(),
+							coinInferieurGauche2.getX(),
+							coinInferieurGauche2.getY());
+					svgGenerator.setStroke(previousStroke);
+				}
+			}
+
+		}
+	}
+	
+	/**
+	 * Cette méthode permet de créer le rectangle contenant les informations du
 	 * type et de le remplir avec les couleurs associées
 	 * 
 	 */
@@ -114,6 +211,10 @@ public class DrawingSVG implements Drawing {
 		svgGenerator.draw(new Rectangle(c.getX(), c.getY(), largeur, hauteur));
 	}
 	
+	/**
+	 * Cette méthode permet remplir l'objet SVG graphique nécessaire pour
+	 * dessiner les classes ou les interfaces
+	 */
 	public void etiquetter(Type t, Curseur coin){
 		Curseur depart = coin;
 		Curseur curseurMobile = coin ;
