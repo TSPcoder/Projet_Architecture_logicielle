@@ -27,14 +27,14 @@ Configuration et Utilisation :
     2. Pour dessiner le diagramme de type sous format .svg :
         2.1 Se rendre dans la classe Tests.TestDisplaySVG
         2.2 Dans le constructeur TestDisplaySVG(), la ligne de code " listeTypes.add(new MyClass("type.Relation")); " permet de définir une classe à décrire, le nom de cette classe est ici "type.Relation".
-            2.2.1 Remplacez donc "type.Relation" dans cette ligne de code pour afficher la classe voulue.
+            2.2.1 Remplacez "type.Relation" dans cette ligne de code pour afficher la classe voulue.
             2.2.2 Copier cette ligne et faites l'étape 1.1 pour ajouter une nouvelle classe à décrire.
             2.2.3 Supprimer cette ligne pour enlever la description d'une classe.
         2.3 Lancer la méthode main de la classe Tests.WindowSVG ( une pop-up contiendra le diagramme à ce moment là ).
     
 Fichiers présents :
 
-    - Ce README
+    - README
     - Le projet AL_Project
     - Le fichier .jar Batik-bin-1.8.zip nécessaire à l'utilisation du projet ( dans le dossier AL_Project )
     
@@ -51,3 +51,4 @@ Bugs connus :
 Améliorations possibles :
     
     -Ajouter une interface pour définir les classes à dessiner
+    -Rendre le code plus modulaire afin de simplifier les fonctionnalités de dessin associées à l'ajout d'un type
