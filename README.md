@@ -48,3 +48,5 @@ Améliorations possibles :
     
     -Ajouter une interface pour définir les classes à dessiner
     -Rendre le code plus modulaire afin de simplifier les fonctionnalités de dessin associées à l'ajout d'un type
+    -Implémenter l'insertion d'un diagramme au sein d'un autre
+    -Améliorer l'algorithme de placement des types dans le diagramme
