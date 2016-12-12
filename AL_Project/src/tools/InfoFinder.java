@@ -140,13 +140,4 @@ public class InfoFinder {
 		return result;
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException {
-		HashMap<String, Object> l = InfoFinder.info(Class.forName("type.MyClass"));
-		ArrayList<String> resultatExtends = (ArrayList<String>) l.get("extends") ;
-		ArrayList<String> resultatImplements = (ArrayList<String>) l.get("implements") ;
-		// System.out.println(l.get("name"));
-		System.out.println("extends : " + resultatExtends);
-		System.out.println("implements : " + resultatImplements);
-	}
-	
 }
