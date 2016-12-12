@@ -110,10 +110,6 @@ public class DrawingSVG implements Drawing {
 				}
 			}
 		}
-		for (String name : coinsSuperieurGauche.keySet() ){
-			System.out.println(name);
-			coinsSuperieurGauche.get(name).display();
-		}
 	}
 	
 	/**
