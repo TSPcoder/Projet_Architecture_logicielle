@@ -3,6 +3,7 @@ package interpretor;
 import java.util.ArrayList;
 
 import type.MyClass;
+import type.MyInterface;
 import type.Type;
 import diagram.CurrentDiagram;
 import diagram.EmptyDiagramException;
@@ -28,18 +29,34 @@ public class DrawingText implements Drawing {
 				// On récupère les types du diagrammes
 				Type t = diagram.getTypes().get(i);
 				if(t.getType()=="Class"){
-					s+= "Type numéro " + (i+1) + " : Classe \"" + t.getInfo("name") + "\" \n" ;
+					s+= "TYPE Numéro " + (i+1) + " : " + t.getType() + " \"" + t.getInfo("name") + "\" \n" ;
+					
+					s+= "\nVariable(s) d'instance :\n" ;
+					ArrayList<String> array =  (ArrayList<String>) t.getInfo("variables") ;
+					for( String str : array ){
+						s+= "-" + str + "\n" ;
+					}
 					
 					s+= "\nConstructeur(s) :\n" ;
-					ArrayList<String> array =  (ArrayList<String>) t.getInfo("constructors") ;
+					array =  (ArrayList<String>) t.getInfo("constructors") ;
 					for( String str : array ){
-						s+= str + "\n" ;
+						s+="-" + str + "\n" ;
 					}
 					
 					s+= "\nMéthode(s) :\n" ;
 					array =  (ArrayList<String>) t.getInfo("methods") ;
 					for( String str : array ){
-						s+= str + "\n" ;
+						s+="-" + str + "\n" ;
+					}
+					s+="\n\n";
+				}
+				if(t.getType()=="Interface"){
+					s+= "TYPE numéro " + (i+1) + " : " + t.getType() + " \"" + t.getInfo("name") + "\" \n" ;
+					
+					s+= "\nMéthode(s) :\n" ;
+					ArrayList<String> array =  (ArrayList<String>) t.getInfo("methods") ;
+					for( String str : array ){
+						s+="-" + str + "\n" ;
 					}
 					s+="\n\n";
 				}
@@ -54,6 +71,7 @@ public class DrawingText implements Drawing {
 		ArrayList<Type> listeTypes = new ArrayList<>();
 		listeTypes.add(new MyClass("type.Relation"));
 		listeTypes.add(new MyClass("diagram.CurrentDiagram"));
+		listeTypes.add(new MyInterface("type.Type"));
 		String title = "Mon diagramme texte" ;
 		CurrentDiagram diag = new CurrentDiagram(listeTypes , title);
 		DrawingText dessinTexte = new DrawingText(diag);

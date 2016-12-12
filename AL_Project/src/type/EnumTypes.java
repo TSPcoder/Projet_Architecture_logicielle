@@ -1,11 +1,11 @@
 package type;
 
-public enum EnumerationTypes {
+public enum EnumTypes {
 	CLASSE ("Class") , INTERFACE ("Interface") , RELATION ("Relation") ;
 	
 	private String nameType = "";
 	
-	EnumerationTypes(String type) {
+	EnumTypes(String type) {
 		this.nameType=type;
 	}
 	

@@ -1,7 +1,11 @@
 package type;
 
+import java.util.HashMap;
+
+import tools.InfoFinder;
+
 /**
- * Cette classe modélise une relation entre deux types
+ * Cette classe modélise une relation entre le type entry et le type output
  * 
  * Elle peut être ici de deux types : extends ou implements
  * 
@@ -24,16 +28,19 @@ public class Relation implements Type {
 	public Type getOutput() {
 		return this.output;
 	}
-
+	
+	/**
+	 * On suppose que les informations sur le type de départ sont toujours
+	 * suffisantes pour trouver la relation entre les deux types
+	 */
 	@Override
 	public Object getInfo(String s) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.entry.getInfo(s);
 	}
 
 	@Override
 	public String getType() {
-		EnumerationTypes e = EnumerationTypes.RELATION;
+		EnumTypes e = EnumTypes.RELATION;
 		return e.toString();
 	}
 

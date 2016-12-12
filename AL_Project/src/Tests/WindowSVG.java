@@ -1,5 +1,7 @@
 package Tests;
 
+import java.awt.Color;
+
 import javax.swing.JFrame;
 
 /**
@@ -22,6 +24,8 @@ public class WindowSVG extends JFrame {
 	
 	public static void main(String[] args) {
 		WindowSVG w = new WindowSVG(500, 600);
+		// Dans ce cas précis, préciser la largeur et la hauteur n'est d'aucune utilité
+		w.setExtendedState(MAXIMIZED_BOTH);
 		w.setVisible(true);
 	}
 }

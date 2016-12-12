@@ -32,7 +32,7 @@ public class MyInterface implements Type {
 
 	@Override
 	public String getType() {
-		EnumerationTypes e = EnumerationTypes.INTERFACE;
+		EnumTypes e = EnumTypes.INTERFACE;
 		return e.toString();
 	}
 

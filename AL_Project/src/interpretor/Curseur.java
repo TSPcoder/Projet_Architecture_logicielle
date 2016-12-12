@@ -10,6 +10,10 @@ public class Curseur {
 		this.Y = Y;
 	}
 	
+	public Curseur() {
+		this(0,0);
+	}
+	
 	public Curseur(Curseur c){
 		this(c.getX(), c.getY());
 	}
